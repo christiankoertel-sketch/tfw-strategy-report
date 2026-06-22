@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The TFW Strategy — Realistic Futures Report — No-FVG (Retest Only)</title>
+<style>
+ body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:1000px;margin:0 auto;padding:30px 18px;color:#222;line-height:1.55}
+ h1{font-size:1.85em;margin:0 0 4px} h2{font-size:1.25em;margin:1.8em 0 .4em;color:#5b2a86;border-bottom:2px solid #efe7f7;padding-bottom:3px} h3{font-size:1.02em;margin:1.1em 0 .3em;color:#444}
+ .sub{color:#777;margin:0 0 16px}
+ .warn{background:#fff7e6;border:1px solid #ffe2a8;border-radius:8px;padding:10px 14px;margin:12px 0;font-size:.92em}
+ .ok{background:#eef9f0;border:1px solid #b8e6c2;border-radius:8px;padding:10px 14px;margin:12px 0;font-size:.93em}
+ .cards{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+ .card{flex:1;min-width:110px;background:#f6f1fb;border:1px solid #e6dbf2;border-radius:10px;padding:11px;text-align:center}
+ .card .n{font-size:1.5em;font-weight:800;color:#5b2a86} .card .l{font-size:.74em;color:#666}
+ table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.83em}
+ th,td{border:1px solid #e6e6e6;padding:5px 6px;text-align:center} thead th{background:#2f2d57;color:#fff}
+ td.m{text-align:left;font-weight:700} .tk{font-size:.72em;color:#999;font-weight:400}
+ td.pf{font-weight:700} .tn{font-size:.68em;font-weight:400;opacity:.8;margin-top:1px}
+ .p5{background:#1a7f37;color:#fff} .p4{background:#56b96a;color:#fff} .p3{background:#bfe6c8} .p2{background:#ffe9a8} .p1{background:#f7c0bb} .na{background:#eee;color:#999;font-weight:400}
+ .rate{padding:2px 7px;border-radius:11px;font-size:.78em;font-weight:700;white-space:nowrap}
+ .strong{background:#1a7f37;color:#fff} .prom{background:#ffe1a8;color:#7a5200} .weak{background:#f3c2bd;color:#8a2018}
+ .good{color:#1a7f37;font-weight:700} .bad{color:#b3261e;font-weight:700} .small{color:#aaa;font-size:.85em} ul li{margin:4px 0}
+</style></head><body>
+<h1>The TFW Strategy — Realistic Futures Report — No-FVG (Retest Only) 💜</h1>
+<p class="sub">Exchange-traded futures · $100,000 account · 3% risk per trade · whole-contract sizing · real commissions · daily · no FVG filter · profit factor by window (5y / 2y / 1y / 6mo) · cross-checked in TradingView</p>
+<div class="warn">⚠ Practice test on past data — not real-money results and not a promise of future profit. Diagnostic only.</div>
+<h2>📖 What this is</h2>
+<p>The exact same TFW strategy — EMA-21 pullback + A++ wick, NO Fair-Value-Gap filter — run on <b>real exchange futures contracts</b> (CME, COMEX, NYMEX, CBOT, ICE) in TradingView, sized the way a real futures account works.</p>
+<h2>🔧 How it's sized (realistic futures)</h2>
+<ul>
+<li><b>$100,000 account, 3% risk per trade.</b> Each trade risks 3% of the current balance (compounding).</li>
+<li><b>Whole contracts at the real point value.</b> The number of contracts = how many whole contracts ≈ 3% risk (ES = $50/pt, GC = $100/oz, CL = $1,000/bbl, …). You can't trade a fraction of a contract, so size is rounded down.</li>
+<li><b>Real costs:</b> ~$4 per-contract round-turn commission + 1-tick slippage.</li>
+<li><b>Why this matters:</b> futures are large, so risk-based sizing is essential — a naive "1 contract every trade" blows the account, while risk-sizing preserves the edge.</li>
+</ul>
+<h2>📊 How to read it</h2>
+<p>Each contract shows <b>profit factor</b> (money won ÷ money lost) across four windows — <b>5 years, 2 years, 1 year, 6 months</b> — with the number of trades in that window underneath. Above 1.3 = strong, 1.0–1.3 = profitable, below 1.0 = lost money. Green across all windows = a durable edge; strong only in the 5-year column = possibly fading. The <b>$ columns</b> are the net return and final balance on the $100k account after commissions.</p>
+<h2>The headlines</h2>
+<div class="cards">
+ <div class="card"><div class="n">20</div><div class="l">futures tested</div></div>
+ <div class="card"><div class="n">4</div><div class="l">★ Strong (5y PF ≥ 1.3)</div></div>
+ <div class="card"><div class="n">13</div><div class="l">profitable (of 18 priced)</div></div>
+ <div class="card"><div class="n">+110%</div><div class="l">best (Silver)</div></div>
+</div>
+<p>The strategy's edge survives on real futures with realistic sizing — metals and Nasdaq lead, the broad indices and energy lag. The progression columns show how durable each edge is over time.</p>
+<h2>📈 Stock-index futures</h2>
+<table><thead><tr><th>Contract</th><th>5 yr</th><th>2 yr</th><th>1 yr</th><th>6 mo</th><th>Win %</th><th>Return (5y)</th><th>Final ($100k)</th><th>Max ctr</th><th>Rating</th></tr></thead><tbody><tr><td class="m">E-mini Dow<div class="tk">CBOT_MINI:YM1!</div></td><td class="pf p4">1.44<div class="tn">66 tr</div></td><td class="pf p5">1.92<div class="tn">25 tr</div></td><td class="pf p5">3.85<div class="tn">13 tr</div></td><td class="pf p5">2.36<div class="tn">5 tr</div></td><td>50%</td><td class="good">+41.3%</td><td>$141,278</td><td>3</td><td><span class="rate strong">★ Strong</span></td></tr>
+<tr><td class="m">E-mini S&P 500<div class="tk">CME_MINI:ES1!</div></td><td class="pf p3">1.25<div class="tn">68 tr</div></td><td class="pf p4">1.49<div class="tn">32 tr</div></td><td class="pf p4">1.44<div class="tn">20 tr</div></td><td class="pf p5">1.56<div class="tn">11 tr</div></td><td>50%</td><td class="good">+40.1%</td><td>$140,109</td><td>3</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">E-mini Nasdaq 100<div class="tk">CME_MINI:NQ1!</div></td><td class="pf p3">1.20<div class="tn">74 tr</div></td><td class="pf p3">1.10<div class="tn">36 tr</div></td><td class="pf p1">0.62<div class="tn">20 tr</div></td><td class="pf p1">0.70<div class="tn">12 tr</div></td><td>46%</td><td class="good">+65.1%</td><td>$165,117</td><td>3</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">E-mini Russell 2000<div class="tk">CME_MINI:RTY1!</div></td><td class="pf p1">0.72<div class="tn">88 tr</div></td><td class="pf p3">1.05<div class="tn">38 tr</div></td><td class="pf p3">1.27<div class="tn">20 tr</div></td><td class="pf p1">0.75<div class="tn">11 tr</div></td><td>34%</td><td class="bad">-39.1%</td><td>$60,939</td><td>4</td><td><span class="rate weak">Weak</span></td></tr></tbody></table>
+<h2>🥇 Metals futures</h2>
+<table><thead><tr><th>Contract</th><th>5 yr</th><th>2 yr</th><th>1 yr</th><th>6 mo</th><th>Win %</th><th>Return (5y)</th><th>Final ($100k)</th><th>Max ctr</th><th>Rating</th></tr></thead><tbody><tr><td class="m">Silver<div class="tk">COMEX:SI1!</div></td><td class="pf p5">1.52<div class="tn">85 tr</div></td><td class="pf p5">1.82<div class="tn">34 tr</div></td><td class="pf p5">2.82<div class="tn">17 tr</div></td><td class="pf p5">4.84<div class="tn">4 tr</div></td><td>46%</td><td class="good">+109.5%</td><td>$209,539</td><td>4</td><td><span class="rate strong">★ Strong</span></td></tr>
+<tr><td class="m">Gold<div class="tk">COMEX:GC1!</div></td><td class="pf p4">1.46<div class="tn">81 tr</div></td><td class="pf p5">2.06<div class="tn">23 tr</div></td><td class="pf p5">2.11<div class="tn">14 tr</div></td><td class="pf p4">1.32<div class="tn">6 tr</div></td><td>43%</td><td class="good">+82.8%</td><td>$182,838</td><td>4</td><td><span class="rate strong">★ Strong</span></td></tr>
+<tr><td class="m">Copper<div class="tk">COMEX:HG1!</div></td><td class="pf p3">1.01<div class="tn">101 tr</div></td><td class="pf p3">1.29<div class="tn">28 tr</div></td><td class="pf p3">1.22<div class="tn">15 tr</div></td><td class="pf p5">2.46<div class="tn">5 tr</div></td><td>37%</td><td class="good">+1.7%</td><td>$101,679</td><td>3</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">Platinum<div class="tk">NYMEX:PL1!</div></td><td class="pf p1">0.64<div class="tn">84 tr</div></td><td class="pf p1">0.84<div class="tn">34 tr</div></td><td class="pf p1">0.67<div class="tn">14 tr</div></td><td class="pf p3">1.02<div class="tn">5 tr</div></td><td>30%</td><td class="bad">-46.1%</td><td>$53,896</td><td>4</td><td><span class="rate weak">Weak</span></td></tr></tbody></table>
+<h2>🛢️ Energy futures</h2>
+<table><thead><tr><th>Contract</th><th>5 yr</th><th>2 yr</th><th>1 yr</th><th>6 mo</th><th>Win %</th><th>Return (5y)</th><th>Final ($100k)</th><th>Max ctr</th><th>Rating</th></tr></thead><tbody><tr><td class="m">WTI Crude<div class="tk">NYMEX:CL1!</div></td><td class="pf p3">1.18<div class="tn">89 tr</div></td><td class="pf p4">1.32<div class="tn">35 tr</div></td><td class="pf p5">1.52<div class="tn">16 tr</div></td><td class="pf p5">1.53<div class="tn">8 tr</div></td><td>42%</td><td class="good">+31.9%</td><td>$131,940</td><td>3</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">Natural Gas<div class="tk">NYMEX:NG1!</div></td><td class="pf p1">0.81<div class="tn">73 tr</div></td><td class="pf p1">0.85<div class="tn">31 tr</div></td><td class="pf p1">0.18<div class="tn">12 tr</div></td><td class="pf p1">0.00<div class="tn">2 tr</div></td><td>40%</td><td class="bad">-25.8%</td><td>$74,174</td><td>5</td><td><span class="rate weak">Weak</span></td></tr></tbody></table>
+<h2>🌾 Grain futures</h2>
+<table><thead><tr><th>Contract</th><th>5 yr</th><th>2 yr</th><th>1 yr</th><th>6 mo</th><th>Win %</th><th>Return (5y)</th><th>Final ($100k)</th><th>Max ctr</th><th>Rating</th></tr></thead><tbody><tr><td class="m">Corn<div class="tk">CBOT:ZC1!</div></td><td class="pf p5">1.76<div class="tn">68 tr</div></td><td class="pf p5">1.64<div class="tn">31 tr</div></td><td class="pf p1">0.81<div class="tn">17 tr</div></td><td class="pf p3">1.05<div class="tn">10 tr</div></td><td>54%</td><td class="small">n/a †</td><td class="small">n/a †</td><td>3</td><td><span class="rate strong">★ Strong</span></td></tr>
+<tr><td class="m">Wheat<div class="tk">CBOT:ZW1!</div></td><td class="pf p3">1.00<div class="tn">85 tr</div></td><td class="pf p2">0.91<div class="tn">36 tr</div></td><td class="pf p3">1.02<div class="tn">18 tr</div></td><td class="pf p5">2.77<div class="tn">8 tr</div></td><td>45%</td><td class="good">+24.7%</td><td>$124,666</td><td>3</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">Soybeans<div class="tk">CBOT:ZS1!</div></td><td class="pf p1">0.89<div class="tn">83 tr</div></td><td class="pf p3">1.00<div class="tn">39 tr</div></td><td class="pf p1">0.77<div class="tn">19 tr</div></td><td class="pf p3">1.04<div class="tn">11 tr</div></td><td>41%</td><td class="small">n/a †</td><td class="small">n/a †</td><td>3</td><td><span class="rate weak">Weak</span></td></tr></tbody></table>
+<h2>☕ Soft-commodity futures</h2>
+<table><thead><tr><th>Contract</th><th>5 yr</th><th>2 yr</th><th>1 yr</th><th>6 mo</th><th>Win %</th><th>Return (5y)</th><th>Final ($100k)</th><th>Max ctr</th><th>Rating</th></tr></thead><tbody><tr><td class="m">Cocoa<div class="tk">ICEUS:CC1!</div></td><td class="pf p3">1.08<div class="tn">85 tr</div></td><td class="pf p3">1.23<div class="tn">34 tr</div></td><td class="pf p3">1.09<div class="tn">14 tr</div></td><td class="pf p1">0.49<div class="tn">8 tr</div></td><td>42%</td><td class="good">+12.8%</td><td>$112,768</td><td>17</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">Sugar<div class="tk">ICEUS:SB1!</div></td><td class="pf p3">1.03<div class="tn">102 tr</div></td><td class="pf p3">1.07<div class="tn">41 tr</div></td><td class="pf p1">0.83<div class="tn">24 tr</div></td><td class="pf p3">1.29<div class="tn">11 tr</div></td><td>43%</td><td class="good">+93.7%</td><td>$193,672</td><td>3</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">Coffee<div class="tk">ICEUS:KC1!</div></td><td class="pf p3">1.01<div class="tn">95 tr</div></td><td class="pf p2">0.98<div class="tn">38 tr</div></td><td class="pf p5">1.55<div class="tn">19 tr</div></td><td class="pf p5">2.26<div class="tn">11 tr</div></td><td>42%</td><td class="good">+97.1%</td><td>$197,126</td><td>2</td><td><span class="rate prom">Promising</span></td></tr></tbody></table>
+<h2>💱 Currency (FX) futures</h2>
+<table><thead><tr><th>Contract</th><th>5 yr</th><th>2 yr</th><th>1 yr</th><th>6 mo</th><th>Win %</th><th>Return (5y)</th><th>Final ($100k)</th><th>Max ctr</th><th>Rating</th></tr></thead><tbody><tr><td class="m">Euro FX<div class="tk">CME:6E1!</div></td><td class="pf p3">1.26<div class="tn">91 tr</div></td><td class="pf p4">1.33<div class="tn">25 tr</div></td><td class="pf p3">1.15<div class="tn">11 tr</div></td><td class="pf p3">1.07<div class="tn">5 tr</div></td><td>50%</td><td class="good">+36.7%</td><td>$136,683</td><td>12</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">British Pound<div class="tk">CME:6B1!</div></td><td class="pf p3">1.01<div class="tn">88 tr</div></td><td class="pf p3">1.27<div class="tn">34 tr</div></td><td class="pf p3">1.07<div class="tn">18 tr</div></td><td class="pf p5">4.53<div class="tn">8 tr</div></td><td>41%</td><td class="good">+1.5%</td><td>$101,475</td><td>16</td><td><span class="rate prom">Promising</span></td></tr>
+<tr><td class="m">Japanese Yen<div class="tk">CME:6J1!</div></td><td class="pf p2">0.95<div class="tn">84 tr</div></td><td class="pf p1">0.55<div class="tn">40 tr</div></td><td class="pf p1">0.49<div class="tn">21 tr</div></td><td class="pf p1">0.67<div class="tn">10 tr</div></td><td>39%</td><td class="bad">-6.9%</td><td>$93,084</td><td>26</td><td><span class="rate weak">Weak</span></td></tr>
+<tr><td class="m">Australian Dollar<div class="tk">CME:6A1!</div></td><td class="pf p2">0.90<div class="tn">89 tr</div></td><td class="pf p1">0.79<div class="tn">35 tr</div></td><td class="pf p1">0.58<div class="tn">20 tr</div></td><td class="pf p5">3.99<div class="tn">3 tr</div></td><td>38%</td><td class="bad">-14.3%</td><td>$85,708</td><td>13</td><td><span class="rate weak">Weak</span></td></tr></tbody></table>
+
+<h2>⚠️ Honest caveats</h2>
+<ul>
+<li><b>† Grain &amp; coffee dollars are not shown.</b> CBOT corn/wheat/soybeans and ICE coffee are cents-quoted; TradingView mis-reports their contract point value on the continuous series, so the dollar P&L is unreliable (off ~100×). Their profit factor and trade counts are valid and shown — the $ columns are not.</li>
+<li><b>Continuous contracts.</b> These use TradingView's <code>1!</code> front-month continuous series, which stitch contracts at rollover; un-adjusted rollover gaps can occasionally create a signal a single contract wouldn't have.</li>
+<li><b>Short windows are noisy.</b> The 6-month and 1-year profit factors rest on a handful of trades — weight the longer windows.</li>
+<li><b>Account size matters.</b> Results are for a $100k account at 3% risk; a smaller account would need micro contracts (MES, MGC…).</li>
+<li><b>Diagnostic only</b> — for understanding the strategy on futures, not a signal to trade.</li>
+</ul>
+<h2>📚 Glossary</h2>
+<p class="small"><b>Profit factor</b> = gross winnings ÷ gross losses. <b>Point value</b> = dollars per 1-point move of one contract. <b>Whole-contract / risk-based sizing</b> = buying the number of contracts whose stop-loss distance ≈ 3% of the account. <b>Continuous (1!) contract</b> = the rolling front-month series TradingView stitches together. <b>Max ctr</b> = the most contracts held at once. <b>Win rate</b> low is normal with a 1.5× reward:risk.</p>
+<p class="small">Method: EMA-21 daily retest + A++ wick (30%), NO FVG filter (retest + wick only), pending-stop entry, 1.5× target, risk-based whole-contract sizing at 3%/trade on $100k, real point value + ~$4/contract commission + 1-tick slippage. Engine C = TradingView. 5y window 2021-05-21 → 2026-05-20; sub-windows end 2026-05-20.</p>
+</body></html>
