@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TFW Backtest Request</title>
+<style>
+:root{--p:#5b2a86;--pl:#efe7f7;--dark:#2f2d57;--ok:#1a7f37;--bg:#faf8fc}
+*{box-sizing:border-box}
+body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:#222;line-height:1.5}
+.wrap{max-width:820px;margin:0 auto;padding:24px 16px 80px}
+header{background:linear-gradient(135deg,#5b2a86,#7e4bb0);color:#fff;border-radius:16px;padding:22px 24px;margin-bottom:18px;box-shadow:0 6px 22px rgba(91,42,134,.25)}
+header h1{margin:0 0 4px;font-size:1.5em}
+header p{margin:0;opacity:.9;font-size:.92em}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+button{font:inherit;border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;transition:.15s}
+.primary{background:var(--p);color:#fff}.primary:hover{background:#4a2270}
+.ghost{background:#fff;color:var(--p);border:1.5px solid #e2d4f0}.ghost:hover{background:var(--pl)}
+.sec{background:#fff;border:1px solid #ece5f4;border-radius:14px;padding:6px 20px 18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.sec h2{font-size:1.05em;color:var(--p);border-bottom:2px solid var(--pl);padding-bottom:8px;margin:16px 0 6px}
+.field{margin:14px 0}
+.field label{display:flex;align-items:center;gap:7px;font-weight:600;font-size:.93em;margin-bottom:5px}
+.req label::after{content:"core";font-size:.62em;background:#ffe1a8;color:#7a5200;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+input[type=text],input[type=date],textarea,select{width:100%;font:inherit;padding:9px 11px;border:1.5px solid #ddd3ea;border-radius:9px;background:#fffdff}
+input:focus,textarea:focus,select:focus{outline:0;border-color:var(--p);box-shadow:0 0 0 3px rgba(91,42,134,.12)}
+textarea{min-height:58px;resize:vertical}
+.radios{display:flex;gap:8px;flex-wrap:wrap}
+.radios label{font-weight:600;font-size:.9em;border:1.5px solid #ddd3ea;border-radius:9px;padding:8px 14px;cursor:pointer;background:#fff;display:flex}
+.radios input{display:none}
+.radios input:checked+span{color:var(--p)}
+.radios label:has(input:checked){border-color:var(--p);background:var(--pl)}
+.tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#cdbbe2;color:#fff;font-size:11px;font-weight:800;cursor:help}
+.tip .box{visibility:hidden;opacity:0;position:absolute;left:22px;top:-4px;width:260px;background:var(--dark);color:#fff;font-weight:400;font-size:.8em;line-height:1.45;padding:9px 11px;border-radius:9px;z-index:9;transition:.15s;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.tip:hover .box{visibility:visible;opacity:1}
+.tip .box b{color:#ffd98a}
+@media(max-width:560px){.tip .box{left:auto;right:22px;width:220px}}
+#out{display:none;background:#fff;border:1px solid #ece5f4;border-radius:14px;padding:18px 20px;margin-top:18px}
+#out pre{white-space:pre-wrap;background:#f6f1fb;border-radius:10px;padding:14px;font-size:.86em;border:1px solid #e6dbf2}
+.note{background:var(--pl);border-left:4px solid var(--p);border-radius:7px;padding:9px 13px;font-size:.86em;margin:8px 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:11px 20px;border-radius:10px;font-weight:700;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+</style></head><body>
+<div class="wrap">
+<header>
+ <h1>💜 TFW Backtest Request</h1>
+ <p>Tell us your strategy and we'll test it accurately — first time, no back-and-forth. Hover the <b>ⓘ</b> on any field for help.</p>
+</header>
+<div class="bar">
+ <button class="ghost" onclick="loadExample()">↧ Load Amanda's example</button>
+ <button class="ghost" onclick="clearAll()">✕ Clear</button>
+ <button class="primary" onclick="generate()">✓ Generate request</button>
+</div>
+<div class="note">The two fields marked <b>CORE</b> — your exact entry trigger and trade management — matter most. One wrong assumption there (e.g. "enter at close" vs "enter on a stop order") changes the whole result.</div>
+<form id="f"></form>
+<div class="bar">
+ <button class="primary" onclick="generate()">✓ Generate request</button>
+</div>
+<div id="out">
+ <h2 style="color:var(--p);margin-top:4px">Your request</h2>
+ <p style="font-size:.88em;color:#666">Copy this and send it to the backtest team, or download it.</p>
+ <pre id="outtext"></pre>
+ <div class="bar">
+  <button class="primary" onclick="copyOut()">⧉ Copy</button>
+  <button class="ghost" onclick="downloadOut()">↓ Download .txt</button>
+ </div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const FIELDS=[
+ {s:'A · Who & what'},
+ {id:'name',l:'Your name',t:'Who is requesting this backtest.',ph:'e.g. Amanda',ty:'text'},
+ {id:'date',l:'Date',t:'Today’s date.',ty:'date'},
+ {id:'strat',l:'Strategy name / nickname',t:'A short name so we can refer to it.',ph:'e.g. A+ EMA retest',ty:'text'},
+ {id:'confirmer',l:'Who can confirm the exact rules?',t:'The person we check the final rules with — usually you, or another educator.',ph:'e.g. Amanda',ty:'text'},
+ {id:'newvar',l:'New idea, or a variation of an existing TFW strategy?',t:'If it’s a tweak of something we already test, tell us which one and what’s different.',ph:'new idea, or "same as daily A+ but on 4H"',ty:'ta'},
+ {s:'B · The setup in your own words'},
+ {id:'describe',l:'Describe the trade in 2–3 plain sentences',t:'Just talk it through like you’d explain it to a member: what you look for, where you get in, where you get out.',ty:'ta'},
+ {s:'C · Markets & timeframe'},
+ {id:'markets',l:'Which markets / symbols to test?',t:'List the instruments. More symbols = longer to run but a fuller picture.',ph:'e.g. NAS100, US500, Gold, AUD/JPY, AUD/USD',ty:'ta'},
+ {id:'spotfut',l:'Spot, futures, or both?',t:'Spot = the CFDs most members chart. Futures = real exchange contracts (NQ, ES, GC). Both = we run each.',ty:'sel',o:['Spot','Futures','Both']},
+ {id:'timeframe',l:'Timeframe(s) to test',t:'The chart timeframe the strategy lives on.',ph:'Daily / 4H / 1H / 15m',ty:'text'},
+ {id:'session',l:'Any time-of-day / session filter?',t:'If you only take a specific candle or session, tell us which one AND the timezone (this is easy to get wrong otherwise).',ph:'e.g. only the 3am PST 4H candle (pre-NY) — or "no"',ty:'ta'},
+ {s:'D · Entry rules'},
+ {id:'tools',l:'Indicators / tools used + their settings',t:'Every indicator and its exact setting.',ph:'e.g. 21 EMA, LuxAlgo FVG',ty:'ta'},
+ {id:'trend',l:'How do you decide trend / direction?',t:'What tells you to look for longs vs shorts.',ph:'price above/below the EMA, market structure, etc.',ty:'ta'},
+ {id:'direction',l:'Long, short, or both?',t:'Which directions the backtest should take.',ty:'radio',o:['Long','Short','Both']},
+ {id:'trigger',l:'EXACT entry trigger',core:1,t:'The single most important field. Do you place a STOP order at the wick (fills only if price keeps going)? Enter at the candle CLOSE? A limit order? Be precise.',ph:'e.g. pending stop at the signal candle high (long) / low (short)',ty:'ta'},
+ {id:'filters',l:'Required confluences / filters + thresholds',core:1,t:'Everything that must be true to take the trade, with numbers. e.g. rejection wick must be 30% bigger than the other wick; must sit in an FVG.',ty:'ta'},
+ {id:'expiry',l:'Does an unfilled entry order expire? After how long?',t:'If the stop/limit doesn’t trigger, do you cancel it — and when?',ph:'e.g. cancel after 1 candle, or "leave it until filled"',ty:'text'},
+ {s:'E · Stop loss'},
+ {id:'stop',l:'Where is the stop placed?',t:'Exactly where the protective stop goes.',ph:'opposite wick / below structure / fixed pips / 1x ATR',ty:'ta'},
+ {s:'F · Target / take profit'},
+ {id:'rr',l:'Fixed reward:risk? What ratio?',t:'If you use a fixed target, what multiple of risk.',ph:'e.g. 1.5R, or 2R',ty:'text'},
+ {id:'manage',l:'Trailing stop / partials / breakeven?',core:1,t:'Do you manage the trade after entry, or just let the fixed target/stop run? Describe exactly — this changes results a lot.',ph:'e.g. none, fixed target only — or "move to BE at 1R, trail the rest"',ty:'ta'},
+ {id:'timeexit',l:'Any time-based exit?',t:'Do you ever close based on time regardless of price?',ph:'e.g. close at NY session end / after N candles — or "no"',ty:'text'},
+ {s:'G · Trade management'},
+ {id:'persame',l:'How many open at once on the SAME market?',core:1,t:'Just one position per instrument at a time, or can you stack / add / scale in?',ty:'sel',o:['One at a time','Can stack / pyramid','Scale in']},
+ {id:'perall',l:'Max concurrent trades across ALL markets?',t:'A cap on total simultaneous open trades, or no limit.',ph:'e.g. no cap / max 5',ty:'text'},
+ {id:'skip',l:'Skip new signals while a trade is open?',t:'If a new signal appears on a market you’re already in, do you ignore it?',ty:'radio',o:['Yes','No']},
+ {s:'H · Risk & account'},
+ {id:'account',l:'Account size to simulate',t:'The starting balance for the test.',ph:'e.g. $100,000',ty:'text'},
+ {id:'risk',l:'Risk per trade',t:'How much of the account each trade risks.',ph:'e.g. 3%',ty:'text'},
+ {id:'compound',l:'Compounding?',t:'Risk a % of the CURRENT balance (compounds) or a fixed amount each time.',ty:'radio',o:['Yes – % of current balance','No – fixed']},
+ {s:'I · Costs'},
+ {id:'costs',l:'Spread / commission assumptions',t:'What trading costs to apply, or just say use realistic broker defaults.',ph:'e.g. use broker defaults',ty:'ta'},
+ {s:'J · Test window & desired output'},
+ {id:'lookback',l:'How far back to test?',t:'How much history to run.',ph:'e.g. 5 years / max available',ty:'text'},
+ {id:'output',l:'What results do you want to see?',t:'The numbers/views that matter to you.',ph:'profit factor, win %, $ return, by time window, per market',ty:'ta'},
+ {id:'compare',l:'Any specific comparison?',t:'Two versions you want lined up side by side.',ph:'e.g. with FVG vs without FVG; 1.5R vs 2R',ty:'ta'},
+ {s:'K · Anything else'},
+ {id:'screens',l:'Screenshots of the setup attached?',t:'A picture of the setup removes guesswork — attach when you send this.',ty:'radio',o:['Yes','No']},
+ {id:'notes',l:'Notes / special requests',t:'Anything else we should know.',ty:'ta'},
+];
+const EX={name:"Amanda (to review/confirm)",date:"2026-06-23",strat:"TFW A+ EMA-FVG retest (the daily indicator strategy)",confirmer:"Amanda",
+ newvar:"Existing — the core TFW daily A+ method (the TFW+FVG 222 indicator).",
+ describe:"Price pulls back to the 21 EMA in a trend and the candle rejects off it with a dominant wick. We enter on a stop order at that candle, stop at the other wick, fixed 1.5x target. Tested both with the FVG requirement and without it.",
+ markets:"62 markets: forex majors + crosses, indices (NAS100, US500, US30...), commodities (Gold, Silver, Oil...), crypto.",
+ spotfut:"Both",timeframe:"Daily",
+ session:"No (daily). A separate 4H 3am-PST session test was run as its own experiment.",
+ tools:"21-period EMA + LuxAlgo Fair Value Gap.",
+ trend:"Long when the candle rejects up off the EMA (closes back above it); short when it rejects down (closes back below).",
+ direction:"Both",
+ trigger:"PENDING STOP at the signal candle wick extreme (high for long, low for short) — fills only if the next candle trades through it.  [PLEASE CONFIRM]",
+ filters:"A++ rejection wick must be >=30% bigger than the opposite wick. FVG version also requires the candle to sit in an unmitigated FVG; the no-FVG version drops that.  [PLEASE CONFIRM 30%]",
+ expiry:"Cancelled after 1 candle (1-bar expiry).  [PLEASE CONFIRM]",
+ stop:"Opposite end of the signal candle (the other wick) = 1R.",
+ rr:"Fixed 1.5R (also showed an optimised 2.0R).  [PLEASE CONFIRM 1.5]",
+ manage:"None — fixed target only. No trailing, no partials, no move to breakeven.  [PLEASE CONFIRM]",
+ timeexit:"No — closes only at stop or target.",
+ persame:"One at a time",
+ perall:"No cap — each market traded independently (one open per market).",
+ skip:"Yes",account:"$100,000",risk:"3%",compound:"Yes – % of current balance",
+ costs:"Realistic per-symbol BlackBull-style spread/cost (spot); ~$4/contract + 1 tick (futures).",
+ lookback:"5 years (2021-05-21 to 2026-05-20).",
+ output:"Profit factor by window (5y/2y/1y/6mo) + trade counts, win %, $ return & final balance, per market.",
+ compare:"FVG vs no-FVG, and 1.5R vs 2.0R target.",
+ screens:"Yes",
+ notes:"Please confirm or correct the items marked [PLEASE CONFIRM] — those are the only points not yet verified against how Amanda actually trades it."};
+const f=document.getElementById('f');
+FIELDS.forEach(x=>{
+ if(x.s){const h=document.createElement('div');h.className='sec';h.innerHTML='<h2>'+x.s+'</h2>';h.dataset.sec=1;f.appendChild(h);return;}
+ const sec=f.lastElementChild;
+ const d=document.createElement('div');d.className='field'+(x.core?' req':'');
+ let inp='';
+ if(x.ty==='ta')inp=`<textarea id="${x.id}" placeholder="${x.ph||''}"></textarea>`;
+ else if(x.ty==='sel')inp=`<select id="${x.id}"><option value="">— choose —</option>${x.o.map(o=>`<option>${o}</option>`).join('')}</select>`;
+ else if(x.ty==='radio')inp=`<div class="radios">${x.o.map(o=>`<label><input type="radio" name="${x.id}" value="${o}"><span>${o}</span></label>`).join('')}</div>`;
+ else inp=`<input type="${x.ty}" id="${x.id}" placeholder="${x.ph||''}">`;
+ d.innerHTML=`<label>${x.l}<span class="tip">i<span class="box">${x.t}</span></span></label>${inp}`;
+ sec.appendChild(d);
+});
+function setVal(id,v){const el=document.getElementById(id);if(el){el.value=v;return;}
+ document.querySelectorAll(`input[name="${id}"]`).forEach(r=>r.checked=(r.value===v));}
+function getVal(id){const el=document.getElementById(id);if(el)return el.value;
+ const r=document.querySelector(`input[name="${id}"]:checked`);return r?r.value:'';}
+function loadExample(){FIELDS.forEach(x=>{if(x.id&&EX[x.id]!==undefined)setVal(x.id,EX[x.id]);});toast('Loaded Amanda’s example');}
+function clearAll(){FIELDS.forEach(x=>{if(x.id)setVal(x.id,'');});document.getElementById('out').style.display='none';toast('Cleared');}
+function generate(){
+ let s='TFW BACKTEST REQUEST\n====================\n';let curSec='';
+ FIELDS.forEach(x=>{if(x.s){curSec=x.s;return;}const v=getVal(x.id);if(v){if(curSec){s+='\n— '+curSec.replace(/^.· /,'').toUpperCase()+' —\n';curSec='';}s+=x.l+':\n  '+v+'\n';}});
+ document.getElementById('outtext').textContent=s.trim();
+ document.getElementById('out').style.display='block';
+ document.getElementById('out').scrollIntoView({behavior:'smooth'});
+}
+function copyOut(){navigator.clipboard.writeText(document.getElementById('outtext').textContent).then(()=>toast('Copied!'));}
+function downloadOut(){const b=new Blob([document.getElementById('outtext').textContent],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='TFW_backtest_request.txt';a.click();toast('Downloaded');}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1800);}
+</script></body></html>
